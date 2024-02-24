@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Code Executor</title>
+</head>
+<body>
+    <div style="display:flex; justify-content:center;">
+        <textarea  id="code" rows="10" cols="50">print("Hello, world!")</textarea>
+
+    
+    <button onclick="runPythonCode()">Run</button>
+    
+    </div>
+    <div id="result"></div>
+
+    <script>
+        function runPythonCode() {
+            fetch('/run_code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    code: document.getElementById('code').value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = data.result || data.error;
+            });
+        }
+    </script>
+</body>
+</html>
